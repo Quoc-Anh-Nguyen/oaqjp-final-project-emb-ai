@@ -1,0 +1,3 @@
+    # Xử lý trường hợp người dùng không nhập nội dung
+    if response["dominant_emotion"] is None:
+        return "Invalid text! Please try again!"
