@@ -1,0 +1,14 @@
+def run_emotion(text_to_analyze: str):
+    payload = {
+        "raw_document": {
+            "text": text_to_analyze
+        }
+    }
+
+    response = requests.post(
+        EMOTION_PREDICT_URL,
+        headers=EMOTION_PREDICT_HEADERS,
+        json=payload
+    )
+    response.raise_for_status()
+    return response.json()
