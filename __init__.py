@@ -1,1 +1,3 @@
-from .emotion_detection import emotion_detector
+"""Emotion detection package."""
+
+from .emotion_detection import run_emotion

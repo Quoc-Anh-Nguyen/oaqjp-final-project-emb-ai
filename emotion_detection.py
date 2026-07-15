@@ -1,14 +1,20 @@
+"""Utility functions for detecting emotions using the Watson NLP API."""
+
 import requests
 
-EMOTION_PREDICT_URL = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
+EMOTION_PREDICT_URL = (
+    "https://sn-watson-emotion.labs.skills.network/"
+    "v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
+)
 
 EMOTION_PREDICT_HEADERS = {
     "grpc-metadata-mm-model-id":
-    "emotion_aggregated-workflow_lang_en_stock"
+        "emotion_aggregated-workflow_lang_en_stock"
 }
 
 
 def run_emotion(text_to_analyze: str):
+    """Analyze the input text and return emotion scores."""
 
     payload = {
         "raw_document": {
@@ -19,10 +25,11 @@ def run_emotion(text_to_analyze: str):
     response = requests.post(
         EMOTION_PREDICT_URL,
         headers=EMOTION_PREDICT_HEADERS,
-        json=payload
+        json=payload,
+        timeout=30
     )
 
-    # ======= NEW =======
+    # Handle blank input
     if response.status_code == 400:
         return {
             "anger": None,
@@ -32,7 +39,6 @@ def run_emotion(text_to_analyze: str):
             "sadness": None,
             "dominant_emotion": None
         }
-    # ===================
 
     response.raise_for_status()
 
